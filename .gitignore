@@ -1,3 +1,5 @@
 gestprjsite/settings.py
 
 *.pyc
+
+.idea
