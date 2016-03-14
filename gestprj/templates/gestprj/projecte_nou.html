@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<form action="/projecte_nou/" method="post">
+    {% csrf_token %}
+    <!--{{ form }}-->
+    {{ form.non_field_errors }}
+    <div class="fieldWrapper">
+        {{ form.subject.errors }}
+        <label for="{{ form.id_usuari_xarxa.id_for_label }}">Id usuari xarxa:</label>
+        {{ form.id_usuari_xarxa }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.message.errors }}
+        <label for="{{ form.nom_xarxa.id_for_label }}">Nom:</label>
+        {{ form.nom_xarxa }}
+    </div>
+    <input type="submit" value="Submit" />
+</form>
