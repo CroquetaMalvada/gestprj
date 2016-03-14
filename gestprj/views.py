@@ -20,6 +20,7 @@ def new_project(request):
         form = UsuariXarxaForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
+            form.save()
             # process the data in form.cleaned_data as required
             # ...
             # redirect to a new URL:
