@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "gestprj/base.html" %}
+
+{% block contenido %}
 <h1>PROYECTOS</h1>
 <ul>
 {% for projecte in llista_projectes %}
-    <li><a href="#">{{ projecte.titol }} - {{ projecte.codi_prj }}</a></li>
+    <li><a href="#">{{ projecte.id_usuari_xarxa }} - {{ projecte.nom_xarxa }}</a></li>
 {% endfor %}
 </ul>
-
-</body>
-</html>
+{% endblock %}
