@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^projecte_nou/', views.new_project, name='projecte_nou'),
     url(r'^login/', views.login_view, name='login'),
     url(r'^logout/', views.logout_view, name='logout'),
+    url(r'^welcome/$', TemplateView.as_view(template_name="gestprj/welcome.html"), name='welcome'),
     url(r'^thanks/$', TemplateView.as_view(template_name="gestprj/thanks.html"), name='thanks'),
     url(r'^menu/$', TemplateView.as_view(template_name="gestprj/menu.html"), name='menu'),
 )

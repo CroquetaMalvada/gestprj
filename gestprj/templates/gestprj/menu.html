@@ -1,14 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <form action="/login/" method="post"> {% csrf_token %}
-        Nombre usuario: <input type="text" name="username" value="{{ username }}" />
-        Password: <input type="password" name="password" value="" />
-        <input type="submit" value="Log in" />
-    </form>
-</body>
-</html>
+{% extends "gestprj/base.html" %}
+{% block contenido %}
+    <div class="box span6" style="margin:0 auto;margin-top:50px;float:none;border:2px solid gray;">
+        <div class="box-header black text-center">
+            <i class="halflings-icon white user"></i> Iniciar sessió
+        </div>
+        <div class="box-content text-center color_grisclaro">
+            <form action="/login/" method="post"> {% csrf_token %}
+                <input type="text" class="text-center" name="username" placeholder="Nom d'usuari" value="{{ username }}"/><br>
+                <input type="password" class="text-center" name="password" placeholder="Password" value=""/><br>
+                <input type="submit" class="btn" value="Entrar"/>
+                {% if errorlogin == True %}
+                <br><br>
+                <div class="alert alert-danger error">
+                  <strong>Error:</strong> Usuari o password incorrectes.
+                </div>
+                {% endif %}
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}

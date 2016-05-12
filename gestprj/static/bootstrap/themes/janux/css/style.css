@@ -149,7 +149,7 @@
 .label-info,
 .badge-info {
 	background: #578EBE !important;
-	border-color: #578EBE !important;
+	border-color: #578EBE;
 	color: #fff;
 }
 

@@ -1,36 +1,55 @@
+<!--usar request.user.is_authenticated no funciona-->
+{% if user.is_authenticated %}
 <header>
     <div class="navbar">
         <div class="navbar-inner">
             <div class="container-fluid">
-                <a class="brand" href="index.html"><span><h2>CABECERA</h2></span></a>
+                <span class="brand"><h2>{{ titulo }}</h2></span>
                 <div class="nav-no-collapse header-nav">
                     <ul class="nav pull-right">
 
+
+
                         <li class="dropdown hidden-phone">
                             <a class="btn dropdown-toggle" href="/projecte_nou">
-                                <i class="icon-calendar"></i>  Nou projecte
+                                <i class="icon-folder-close"></i> Nou projecte
+                            </a>
+                        </li>
+
+                        <li class="dropdown hidden-phone">
+                            <a class="btn dropdown-toggle" href="/projecte_nou">
+                                <i class="icon-pencil"></i> Modificar projecte
                             </a>
                         </li>
 
                         <li class="dropdown hidden-phone">
                             <a class="btn dropdown-toggle" href="/llista_projectes">
-                                <i class="icon-calendar"></i>  Veure projectes
+                                <i class="icon-eye-open"></i> Veure projectes
                             </a>
                         </li>
 
                         <li class="dropdown">
                             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="halflings-icon white user"></i> Dani
+                                <i class="halflings-icon white user"></i> {{ user.first_name|add:" "|add:user.last_name }}
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-menu-title">
                                     <span>Opcions:</span>
                                 </li>
-                                <li><a href="#"><i class="halflings-icon user"></i> Perfil</a></li>
-                                <li><a href="/logout"><i class="halflings-icon off"></i>Tancar Sessió</a></li>
+                                <li><a href="/welcome/"><i class="halflings-icon user"></i> Pàgina principal</a></li>
+                                <li><a href="/logout/"><i class="halflings-icon off"></i>Tancar Sessió</a></li>
                             </ul>
                         </li>
+
+                        <!--&lt;!&ndash;<h1>NO ESTÁS LOGEADO</h1>&ndash;&gt;-->
+                        <!--<li class="dropdown hidden-phone">-->
+                            <!--<a class="btn dropdown-toggle" href="/menu/">-->
+                                <!--<i class="halflings-icon white user"></i> Iniciar sessió-->
+                            <!--</a>-->
+                        <!--</li>-->
+
+
 
                     </ul>
                 </div>
@@ -40,4 +59,5 @@
             </div>
         </div>
     </div>
-    </header>
+</header>
+{% endif %}

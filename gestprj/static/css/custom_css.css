@@ -1,0 +1,32 @@
+.color_negro{
+    background-color:#2E2E2E;
+    color:white;
+}
+
+.color_grisclaro{
+    background-color:#E6E6E6 !important;
+}
+
+.iconazo{
+font-size: 150px;
+color: white;
+}
+.titulo{
+width:100%;
+}
+
+.opcion{
+padding:10px;
+white-space: nowrap;
+margin-top:10px;
+
+}
+.opcion:hover{
+border:2px solid black;
+}
+.opcion h1{
+font-size:200%;
+}
+#contenedor_iconos{
+margin-top:10%;
+}

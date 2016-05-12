@@ -5,30 +5,58 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <!--<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">-->
-    <link id="bootstrap-style" href="{% static 'bootstrap/themes/janux/css/bootstrap.min.css' %}" rel="stylesheet" >
-    <link id="base-style" href="{% static 'bootstrap/themes/janux/css/style.css' %}" rel="stylesheet" >
-    <link id="base-style-responsive" href="{% static 'bootstrap/themes/janux/css/style-responsive.css' %}" rel="stylesheet" >
+
+
+
+    <link id="bootstrap-style" href="{% static 'bootstrap/themes/janux/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link id="base-style" href="{% static 'bootstrap/themes/janux/css/style.css' %}" rel="stylesheet">
+    <link id="base-style-forms" href="{% static 'bootstrap/themes/janux/css/style-forms.css' %}" rel="stylesheet">
+    <link id="base-style-responsive" href="{% static 'bootstrap/themes/janux/css/style-responsive.css' %}" rel="stylesheet">
     <link href="{% static 'bootstrap/themes/janux/css/bootstrap-responsive.min.css' %}" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.11/css/dataTables.jqueryui.min.css" rel="stylesheet">
+    <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
 
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext'
+          rel='stylesheet' type='text/css'>
 
+    <link href="{% static 'css/custom_css.css' %}" rel="stylesheet" type="text/css">
     <!--<link href="{% static 'bootstrap/themes/janux/css/style-forms.css' %}" rel="stylesheet" media="screen"> -->
+    <style>
+        html{
+         height:100%;
+        }
+        body{
+         background-image: url("{% static 'imagenes/fondo.jpg' %}");
+        }
+
+    </style>
 
 </head>
 <body>
-
-    {% if request.user.is_authenticated %}
-        <!--Copiar lo de abajo aqui para comprovar autentificacion-->
-    {% else %}
-        <!--<h1>NO ESTÁS LOGEADO</h1>-->
-        {% block cabecera %} {% include "gestprj/cabecera.html" %} {% endblock %}
-        {% block contenido %}{% endblock %}
-        {% block pie %} {% include "gestprj/pie.html" %} {% endblock %}
-    {% endif %}
+    <noscript>
+        <div class="alert alert-block span12 " align="center">
+            <h4 class="alert-heading">Atenció!</h4>
+            <p><br>Necessites instal·lar o activar <a href="http://en.wikipedia.org/wiki/JavaScript"
+                                                      target="_blank">JavaScript</a> per utilitzar
+                aquesta aplicaciò correctament.</p>
+        </div>
+    </noscript>
+{% block cabecera %} {% include "gestprj/cabecera.html" %} {% endblock %}
+{% block contenido %}{% endblock %}
+{% block pie %} {% include "gestprj/pie.html" %} {% endblock %}
 </body>
-    <!-- jQuery -->
-    <script type="text/javascript" src="{% static 'bootstrap/js/jquery.js' %}"></script>
-    <script type="text/javascript" src="{% static 'jquery/efectos_projecte_nou.js' %}"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<!-- jQuery -->
+<script type="text/javascript" src="{% static 'bootstrap/js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'jqueryui/jquery-ui.js' %}"></script>
+<script type="text/javascript" src="{% static 'jqueryui/datepicker-ca.js' %}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="{% static 'jquery/funciones_formulario.js' %}"></script>
+<script type="text/javascript" src="{% static 'jquery/funciones_datatables.js' %}"></script>
+<script type="text/javascript" src="{% static 'jquery/efectos_projecte_nou.js' %}"></script>
+
+
+<!--<script type="text/javascript" src="{% static 'bootstrap/themes/janux/js/jquery.uploadify-3.1.min.js' %}"></script>-->
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 </html>

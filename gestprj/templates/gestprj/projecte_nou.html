@@ -6,23 +6,8 @@
 <div class="container-fluid-full">
     <div class="row-fluid">
 
-        <!-- menu lateral-->
-        <style>
-            body,html,#sidebar-left{
-            height:100%;
-            }
-
-            #content{
-            background:red;
-            height:100%;
-            }
-
-
-
-
-        </style>
         <div id="sidebar-left" class="span2">
-            <div class="nav-collapse sidebar-nav">
+            <div class="nav-collapse sidebar-nav navbar-fixed-left">
                 <ul class="nav nav-tabs nav-stacked main-menu">
                     <li><a href="#" id="general">General</a></li>
                     <li><a href="#" id="personal">Personal</a></li>
@@ -43,194 +28,204 @@
             </div>
         </div>
 
-        {% csrf_token %}
-        {{ form.non_field_errors }}
+        <div id="content" class="span10">
 
-        <div id="content" name="contenedor_formularios" class="blue"> <!--span10??-->
-            <form action="/projecte_nou/" method="post">
+            <!--<style>-->
+            <!--body,html,#sidebar-left{-->
+            <!--height:100%;-->
+            <!--}-->
 
-                <noscript>
-                    <div class="alert alert-block span12 " align="center">
-                        <h4 class="alert-heading">Atenció!</h4>
-                        <p><br>Necessites instal·lar o activar <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> per utilitzar aquesta aplicaciò correctament.</p>
-                    </div>
-                </noscript>
 
-                <!--##############GENERAL-->
-                <div id="contenedor_general" class="cont_prj">
-                    <div class="row-fluid">
-                        <b class="col-md-2">Responsable</b>
-                        <div>
-                            {{ form.id_resp.errors }}
-                            <label for="{{ form.id_resp.id_for_label }}">Nom:</label>
-                            {{ form.id_resp }}
-                        </div>
-                    </div>
+            <!--</style>-->
 
-                    <div class="row-fluid">
+
+            <div name="contenedor_formularios" class="row-fluid"> <!--span10??-->
+
+                <form id="formulario_nou_projecte" action="/projecte_nou/" method="post">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div id="contenedor_general">
+                        <!--{{ form.id_projecte.errors }}-->
+                        <!--<label for="{{ form.id_projecte.id_for_label }}">Id projecte</label>-->
+                        {{ form.id_projecte.as_hidden}}
+                        <h2>Responsable</h2>
+
+                        {{ form.id_resp.errors }}
+                        <label for="{{ form.id_resp.id_for_label }}">Responsable:</label>
+                        {{ form.id_resp }}
+
+                        {{ form.codi_prj.errors }}
+                        <label for="{{ form.codi_prj.id_for_label }}">codi prj(????)</label>
+                        {{ form.codi_prj }}
+
+                        <hr>
+
                         {{ form.codi_oficial.errors }}
-                        <label for="{{ form.codi_oficial.id_for_label }}"><b class="col-md-2">Codi oficial</b></label>
+                        <label for="{{ form.codi_oficial.id_for_label }}">codi oficial</label>
                         {{ form.codi_oficial }}
 
                         {{ form.acronim.errors }}
-                        <label for="{{ form.acronim.id_for_label }}"><b>Acrònim</b></label>
+                        <label for="{{ form.acronim.id_for_label }}">acronim</label>
                         {{ form.acronim }}
 
-                    </div>
-                    <div class="row-fluid">
+                        <hr>
+
                         {{ form.titol.errors }}
-                        <label for="{{ form.titol.id_for_label }}"><b>Títol oficial:</b></label>
+                        <label for="{{ form.titol.id_for_label }}">titol</label>
                         {{ form.titol }}
-                    </div>
 
-                    <div class="row-fluid">
+                        <hr>
+
                         {{ form.resum.errors }}
-                        <label for="{{ form.resum.id_for_label }}"><b>Resum:</b></label>
+                        <label for="{{ form.resum.id_for_label }}">resum</label>
                         {{ form.resum }}
-                    </div>
 
-                    <div class="row-fluid">
-                        {{ form.serv_o_subven.errors }}
-                        <label for="{{ form.serv_o_subven.id_for_label }}"><b>serv_o_subven:</b></label>
-                        <span class="radio" value=1>{{ radio.tag }}Servei</span>
-                        <span class="radio" value=2>{{ radio.tag }} Subvenció</span>
+                        <hr>
+
+                        <!--<input id="serv_o_subven" name="serv_o_subven" value="1" />-->
                         {{ form.serv_o_subven }}
+                        <!--<input type="radio" class="servsubv" name="serv_o_subven" value="1" checked> Servei</input>-->
+                        <!--<input type="radio" class="servsubv" name="serv_o_subven" value="2"> Subvencio</input>-->
 
-                        {{ form.id_categoria.errors }}
-                        <label for="{{ form.id_categoria.id_for_label }}"><b>Categoria:</b></label>
-                        {{ form.id_categoria }}
-                    </div>
-                    <div class="row-fluid">
+                        <select id="id_categoria" name="id_categoria">
+                            {% for categoria in categories %}
+                            <option name="opcion" class="{{ categoria.serv_o_subven }}"
+                                    value="{{ categoria.id_categoria }}">
+                                {{categoria}}
+                            </option>
+                            {% endfor %}
+                        </select>
+
+                        <hr>
                         {{ form.convocatoria.errors }}
-                        <label for="{{ form.convocatoria.id_for_label }}"><b>Convocatòria:</b></label>
+                        <label for="{{ form.convocatoria.id_for_label }}">convocatoria</label>
                         {{ form.convocatoria }}
 
                         {{ form.resolucio.errors }}
-                        <label for="{{ form.resum.id_for_label }}"><b>Resolució:</b></label>
+                        <label for="{{ form.resolucio.id_for_label }}">resolucio</label>
                         {{ form.resolucio }}
-                    </div>
 
-                    <div class="row-fluid">
-                        <b>Duració</b>
+                        <hr>
+
                         {{ form.data_inici_prj.errors }}
-                        <label for="{{ form.data_inici_prj.id_for_label }}">Inici:</label>
+                        <label for="{{ form.data_inici_prj.id_for_label }}">data inici</label>
                         {{ form.data_inici_prj }}
-                        <input type="checkbox">Fi</input>
+
+                        <!--<script>alert("{{ form.data_fi_prj.data }}");</script>-->
+                        {% if form.data_fi_prj.data == None %}
+                        <input type="checkbox" id="fin" name="fin"/>Finalitzat
+                        {% else %}
+                        <input type="checkbox" id="fin" name="fin" checked/>Finalitzat
+                        {% endif %}
+
 
                         {{ form.data_fi_prj.errors }}
-                        <label for="{{ form.data_fi_prj.id_for_label }}"></label>
+                        <label for="{{ form.data_fi_prj.id_for_label }}">data fi</label>
                         {{ form.data_fi_prj }}
-                    </div>
 
-                    <div class="row-fluid">
-                        {{ form.observacions.errors }}
-                        <label for="{{ form.observacions.id_for_label }}"><b>Observacions:</b></label>
-                        {{ form.observacions }}
-                    </div>
+                        <hr>
 
-                    <div class="row-fluid">
+                        {{ form.comentaris.errors }}
+                        <label for="{{ form.comentaris.id_for_label }}">comentaris</label>
+                        {{ form.comentaris }}
+
+                        <hr>
+
+                        <input type="checkbox" id="checkbox_docum_web"/>Entregada la documentació per el web
                         {{ form.es_docum_web.errors }}
-                        <label for="{{ form.es_docum_web.id_for_label }}"><b>Entregada la documentaciò per el
-                            web</b></label>
                         {{ form.es_docum_web }}
 
 
                         {{ form.data_docum_web.errors }}
-                        <label for="{{ form.data_docum_web.id_for_label }}"></label>
                         {{ form.data_docum_web }}
 
                         {{ form.id_estat_prj.errors }}
-                        <label for="{{ form.id_estat_prj.id_for_label }}"><b>Estat</b></label>
+                        <label for="{{ form.id_estat_prj.id_for_label }}">id estat prj</label>
                         {{ form.id_estat_prj }}
-                    </div>
-                </div>
 
-                <!--##############PERSONAL-->
-                <div id="contenedor_personal" class="cont_prj">
-                    <h1>ESTE ES EL PERSONAL</h1>
-                    <div class="row-fluid">
+                    </div>
+                    <div id="contenedor_personal">
                         {{ form.es_coordinat.errors }}
-                        <label for="{{ form.es_coordinat.id_for_label }}">Projecte coordinat</label>
                         {{ form.es_coordinat }}
-                    </div>
-                    <div class="row-fluid">
-                        {{ form.id_centre_part.errors }}
-                        <label for="{{ form.id_centre_part.id_for_label }}">Centres participants en el projecte</label>
-                        {{ form.id_centre_part }}
-                        <br>
-                        <textarea>
 
-                        </textarea>
-                    </div>
+                        <input type="checkbox" id="checkbox_coordinat"/>Projecte coordinat
+                        <div class="box span11">
+                            <table id="centres_participants" class="display">
+                                <div id="controlador">
+                                    <a class="btn btn-success" href="#">
+                                        <i class="halflings-icon white plus-sign"></i>
+                                    </a>
+                                    <a class="btn btn-info" href="#">
+                                        <i class="halflings-icon white pencil"></i>
+                                    </a>
+                                    <a class="btn btn-danger" id="eliminar_campo" href="#">
+                                        <i class="halflings-icon white minus-sign"></i>
+                                    </a>
+                                </div>
+                                <thead>
+                                <tr><th style="width:1000px;">Centres participants en el projecte:</th></tr>
+                                </thead>
+                                <tbody>
+                                {% for organisme in organismes %}
+                                <tr><td>{{ organisme }}</td></tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <div class="row-fluid">
-                        <input type="radio" id="coordinat_creaf">Coordinat pel CREAF</input>
-                    </div>
+                        {{ form.id_usuari_extern.errors }}
+                        <label for="{{ form.id_usuari_extern.id_for_label }}">id usuari extern</label>
+                        {{ form.id_usuari_extern }}
 
-                    <div class="row-fluid">
-                        <input type="radio" id="coordinat_per"/>Coordinat per:</input><br>
-                        <!--#####CAMBIAR EL ID POR ALGO COMO "COORDINADOR"-->
-                        {{ form.id_resp.errors }}
-                        <label for="{{ form.id_resp.id_for_label }}">Coordinador</label>
-                        {{ form.id_resp }}
-                        <br>
-                        Institució:<input>
-
-                    </div>
-
-                    <div class="row-fluid">
-                        Investigadors i Personal del CREAF
-                        <table border="2">
-                            <tr>
-                                <td>Nom i cognoms</td>
-                                <td>Justificació hores</td>
-                            </tr>
-                            <td></td>
-                            <td></td>
-                        </table>
                     </div>
 
-                    <div class="row-fluid">
-                        Investigadors d'altres centres o isntitucions
-                        <table border="2">
-                            <tr>
-                                <td>Nom i cognoms</td>
-                                <td>Justificació hores</td>
-                            </tr>
-                            <td></td>
-                            <td></td>
-                        </table>
+                    <div id="contenedor_finançament">
+                        {{ form.canon_oficial.errors }}
+                        <label for="{{ form.canon_oficial.id_for_label }}">canon oficial</label>
+                        {{ form.canon_oficial }}
+
+                        {{ form.percen_canon_creaf.errors }}
+                        <label for="{{ form.percen_canon_creaf.id_for_label }}">percen canon creaf</label>
+                        {{ form.percen_canon_creaf }}
+
+                        {{ form.percen_iva.errors }}
+                        <label for="{{ form.percen_iva.id_for_label }}">percen iva</label>
+                        {{ form.percen_iva }}
                     </div>
 
-                </div>
+                    <div id="contenedor_pressupost">
 
-                <!--##############FINANÇAMENT-->
-                <div id="contenedor_finançament" class="cont_prj">
-                    <h1>ESTE ES EL DE FINANÇAMENT</h1>
+                    </div>
 
-                </div>
+                    <div id="conentedor_justificacions">
 
-                <!--##############PRESSUPOST-->
-                <div id="contenedor_pressupost" class="cont_prj">
-                    <h1>ESTE ES EL PRESSUPOST</h1>
+                    </div>
 
-                </div>
 
-                <!--##############JUSTIFICACIONS-->
-                <div id="contenedor_justificacions" class="cont_prj">
-                    <h1>ESTE ES EL DE JUSTIFICACIONS</h1>
+                    <!--##############BOTONES-->
+                    <div name="cont_botones">
+                        <a class="btn btn-confirmacion" href="#">Guardar projecte</a>
+                    </div>
 
-                </div>
+                    <div class="modal hide fade in" id="confirmacion" aria-hidden="false">
+                        <div class="modal-body">
+                            <h2 class="text-center" style="color:black;">Estás segur que vols guardar?<br></h2>
+                        </div>
+                        <div class="modal-footer">
+                            <input id="boton_guardar" type="submit" class="btn btn-primary" value="Si,guardar"/>
+                            <a class="btn" data-dismiss="modal">No,cancel·lar</a>
+                        </div>
+                    </div>
 
-                <!--##############BOTONES-->
-                <div name="cont_botones">
-                    <input type="submit" value="Submit"/>
-                    <input type="button" value="Cancel·lar" onclick="location.href='/'">
-                </div>
-            </form>
+                </form>
+                <br>
+                <br>
+                <br>
+
+            </div>
+
+
         </div>
-
-        <!--</div>-->
-
-        <!--</div>-->
-        {% endblock %}
+    </div>
+</div>
+{% endblock %}

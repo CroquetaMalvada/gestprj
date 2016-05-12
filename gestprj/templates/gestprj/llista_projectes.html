@@ -1,10 +1,13 @@
 {% extends "gestprj/base.html" %}
 
 {% block contenido %}
-<h1>PROYECTOS</h1>
 <ul>
-{% for projecte in llista_projectes %}
-    <li><a href="#">{{ projecte.id_usuari_xarxa }} - {{ projecte.nom_xarxa }}</a></li>
-{% endfor %}
+    {% if llista_projectes == None %}
+        <h1>NO TENS CAP PROJECTE</h1>
+    {% else %}
+        {% for projecte in llista_projectes %}
+        <li><a href="#">{{ projecte.acronim }} - {{ projecte.titol }}</a></li>
+        {% endfor %}
+    {% endif %}
 </ul>
 {% endblock %}

@@ -27,7 +27,29 @@ $(document).ready(function(){
         $(this).parent("li").addClass("active");
     });
 
+    if($('#contenedor_iconos').length){
+        $(".titulo").fadeIn(700);
+
+        setTimeout( function(){
+            $(".opcion:hidden:first").slideDown(200);
+        },600 );
+        setTimeout( function(){
+            $(".opcion:hidden:first").slideDown(200);
+        },700 );
+        setTimeout( function(){
+            $(".opcion:hidden:first").slideDown(200);
+        },800 );
+        setTimeout( function(){
+            $(".opcion:hidden:first").slideDown(200);
+        },900 );
+    }
+
+    $('.btn-confirmacion').click(function(e){
+		e.preventDefault();
+		$('#confirmacion').modal('show');
+	});
 });
+
 
 
 function mostrar_menu(nombre){

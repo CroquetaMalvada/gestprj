@@ -1,3 +1,4 @@
+
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
@@ -10,7 +11,13 @@
 from __future__ import unicode_literals
 
 from django.db import models
+# ESTO SIRVE PARA QUE EL AUTOFIELD PUEDA SER UN DECIMAL EN LUGAR DE UN INT
+# from django.db.backends.mysql.creation import DatabaseCreation
+# DatabaseCreation.data_types['AutoField'] = 'numeric(%(max_digits)s, %(decimal_places)s) AUTO_INCREMENT'
+##############
 
+from gestprj import pk
+from django.contrib.auth.models import User
 
 # class AuditoriesProjecte(models.Model):
 #     id_auditoria_prj = models.DecimalField(db_column='ID_AUDITORIA_PRJ', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
@@ -190,7 +197,7 @@ from django.db import models
 class TUsuarisXarxa(models.Model):
     id_usuari_xarxa = models.DecimalField(db_column='ID_USUARI_XARXA', max_digits=10, decimal_places=0, primary_key=True)  # Field name made lowercase.
     nom_xarxa = models.CharField(db_column='NOM_XARXA', max_length=255, blank=True)  # Field name made lowercase.
-    id_usuari = models.DecimalField(db_column='ID_USUARI', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
+    id_usuari = models.DecimalField(db_column='ID_USUARI', max_digits=10, decimal_places=0, blank=True, null=True,unique=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -224,7 +231,7 @@ class TEstatPrj(models.Model):
 
 
 class TUsuarisExterns(models.Model):
-    id_usuari_extern = models.DecimalField(db_column='ID_USUARI_EXTERN', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
+    id_usuari_extern = models.DecimalField(db_column='ID_USUARI_EXTERN', max_digits=10, decimal_places=0, blank=True,primary_key=True)  # puse primary key pero en hay projectos donde esta null!!!
     nom_usuari_extern = models.CharField(db_column='NOM_USUARI_EXTERN', max_length=255, blank=True)  # Field name made lowercase.
     id_organisme = models.DecimalField(db_column='ID_ORGANISME', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
     adreca = models.CharField(db_column='ADRECA', max_length=255, blank=True)  # Field name made lowercase.
@@ -242,6 +249,9 @@ class TUsuarisExterns(models.Model):
         managed = False
         db_table = 'T_USUARIS_EXTERNS'
 
+    def __unicode__(self):
+        return self.nom_usuari_extern
+
 ###### /\ DIFERENCIA?? \/    DUDA
 
 class PersonalExtern(models.Model):
@@ -255,7 +265,9 @@ class PersonalExtern(models.Model):
 
 
 class TUsuarisCreaf(models.Model):
-    id_usuari = models.DecimalField(db_column='ID_USUARI', max_digits=10, decimal_places=0, blank=True, primary_key=True)  # Field name made lowercase.
+    #id_usuari = models.DecimalField(db_column='ID_USUARI', max_digits=10, decimal_places=0, blank=True, primary_key=True)  # Field name made lowercase.
+    #id_usuari = models.OneToOneField(TUsuarisXarxa,to_field="id_usuari",primary_key=True)
+    id_usuari = models.ForeignKey(TUsuarisXarxa,db_column='ID_USUARI',primary_key=True)
     nom_usuari = models.CharField(db_column='NOM_USUARI', max_length=255, blank=True)  # Field name made lowercase.
     adreca = models.CharField(db_column='ADRECA', max_length=255, blank=True)  # Field name made lowercase.
     cp = models.CharField(db_column='CP', max_length=255, blank=True)  # Field name made lowercase.
@@ -283,10 +295,12 @@ class Responsables(models.Model):
         db_table = 'RESPONSABLES'
 
     def __unicode__( self ):
-        return "{0} - {1} - {2}".format( self.id_resp, self.codi_resp, self.id_usuari.nom_usuari )
+        responsables = "{0} - {1}".format( self.codi_resp, self.id_usuari.nom_usuari )
+        return responsables
 
 class Projectes(models.Model):
-    id_projecte = models.DecimalField(db_column='ID_PROJECTE', max_digits=10, decimal_places=0,primary_key=True)  # Field name made lowercase.
+    id_projecte = models.DecimalField(db_column='ID_PROJECTE', max_digits=10, decimal_places=0,primary_key=True, default=pk.generaPkProjecte )  # Field name made lowercase.
+    #id_projecte = models.AutoField(db_column='ID_PROJECTE', primary_key=True, )  # Field name made lowercase.
     #id_resp = models.DecimalField(db_column='ID_RESP', max_digits=10, decimal_places=0)  # Field name made lowercase.
     codi_prj = models.DecimalField(db_column='CODI_PRJ', max_digits=10, decimal_places=0)  # Field name made lowercase.
     codi_oficial = models.CharField(db_column='CODI_OFICIAL', max_length=255, blank=True)  # Field name made lowercase.
@@ -317,8 +331,7 @@ class Projectes(models.Model):
     id_resp = models.ForeignKey(Responsables,related_name="responsable_de",db_column='ID_RESP')
     id_categoria = models.ForeignKey(TCategoriaPrj,related_name="categoria_de",db_column='ID_CATEGORIA')
     id_estat_prj = models.ForeignKey(TEstatPrj,related_name="estat_de",db_column='ID_ESTAT_PRJ')
-    id_usuari_extern= models.ForeignKey(TUsuarisExterns,related_name="extern_de",db_column='ID_USUARI_EXTERN')
-
+    id_usuari_extern = models.ForeignKey(TUsuarisExterns,related_name="extern_de",db_column='ID_USUARI_EXTERN')
 
 
     class Meta:
@@ -369,6 +382,28 @@ class CentresParticipants(models.Model):
         db_table = 'CENTRES_PARTICIPANTS'
 
 
+class TOrganismes(models.Model):
+    id_organisme = models.DecimalField(db_column='ID_ORGANISME', max_digits=10, decimal_places=0, blank=True, primary_key=True)  # Field name made lowercase.
+    nom_organisme = models.CharField(db_column='NOM_ORGANISME', max_length=255, blank=True)  # Field name made lowercase.
+    contacte = models.CharField(db_column='CONTACTE', max_length=255, blank=True)  # Field name made lowercase.
+    adreca = models.CharField(db_column='ADRECA', max_length=255, blank=True)  # Field name made lowercase.
+    cp = models.CharField(db_column='CP', max_length=255, blank=True)  # Field name made lowercase.
+    poblacio = models.CharField(db_column='POBLACIO', max_length=255, blank=True)  # Field name made lowercase.
+    provincia = models.CharField(db_column='PROVINCIA', max_length=255, blank=True)  # Field name made lowercase.
+    pais = models.CharField(db_column='PAIS', max_length=255, blank=True)  # Field name made lowercase.
+    tel1 = models.CharField(db_column='TEL1', max_length=255, blank=True)  # Field name made lowercase.
+    tel2 = models.CharField(db_column='TEL2', max_length=255, blank=True)  # Field name made lowercase.
+    fax = models.CharField(db_column='FAX', max_length=255, blank=True)  # Field name made lowercase.
+    e_mail1 = models.CharField(db_column='E_MAIL1', max_length=255, blank=True)  # Field name made lowercase.
+    e_mail2 = models.CharField(db_column='E_MAIL2', max_length=255, blank=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'T_ORGANISMES'
+
+    def __unicode__(self):
+        return self.nom_organisme
+
 
 
 # class TConceptesPress(models.Model):
@@ -387,26 +422,6 @@ class CentresParticipants(models.Model):
 #     class Meta:
 #         managed = False
 #         db_table = 'T_FEINES'
-#
-#
-# class TOrganismes(models.Model):
-#     id_organisme = models.DecimalField(db_column='ID_ORGANISME', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
-#     nom_organisme = models.CharField(db_column='NOM_ORGANISME', max_length=255, blank=True)  # Field name made lowercase.
-#     contacte = models.CharField(db_column='CONTACTE', max_length=255, blank=True)  # Field name made lowercase.
-#     adreca = models.CharField(db_column='ADRECA', max_length=255, blank=True)  # Field name made lowercase.
-#     cp = models.CharField(db_column='CP', max_length=255, blank=True)  # Field name made lowercase.
-#     poblacio = models.CharField(db_column='POBLACIO', max_length=255, blank=True)  # Field name made lowercase.
-#     provincia = models.CharField(db_column='PROVINCIA', max_length=255, blank=True)  # Field name made lowercase.
-#     pais = models.CharField(db_column='PAIS', max_length=255, blank=True)  # Field name made lowercase.
-#     tel1 = models.CharField(db_column='TEL1', max_length=255, blank=True)  # Field name made lowercase.
-#     tel2 = models.CharField(db_column='TEL2', max_length=255, blank=True)  # Field name made lowercase.
-#     fax = models.CharField(db_column='FAX', max_length=255, blank=True)  # Field name made lowercase.
-#     e_mail1 = models.CharField(db_column='E_MAIL1', max_length=255, blank=True)  # Field name made lowercase.
-#     e_mail2 = models.CharField(db_column='E_MAIL2', max_length=255, blank=True)  # Field name made lowercase.
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'T_ORGANISMES'
 #
 #
 #
