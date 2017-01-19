@@ -17,3 +17,9 @@ def usuari_a_responsable(request):
         return responsable
     except:
         return None
+def id_resp_a_codi_responsable(id_r):
+    try:
+        codigo = Responsables.objects.get(id_resp=id_r)
+        return codigo["id_resp"]
+    except:
+        return None

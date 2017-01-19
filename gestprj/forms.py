@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Textarea, TextInput, Select, EmailInput, NumberInput
 from django import forms
-from gestprj.models import TUsuarisXarxa
+from gestprj.models import TUsuarisXarxa,TUsuarisExterns
 from gestprj.models import TCategoriaPrj
 from gestprj.models import Projectes
 from gestprj.models import CentresParticipants
@@ -18,6 +18,7 @@ class UsuariXarxaForm(forms.ModelForm):
 class ProjectesForm(forms.ModelForm):  # hereda de la clase predefinida forms.ModelForm
     class Meta:
         model = Projectes
+        # Projectes.id_usuari_extern = forms.ModelChoiceField(queryset=TUsuarisExterns.objects.all(),empty_label="--------")
         fields = [
           'id_projecte',
           'id_resp',
@@ -46,10 +47,13 @@ class ProjectesForm(forms.ModelForm):  # hereda de la clase predefinida forms.Mo
         widgets = {
             'es_coordinat': forms.HiddenInput(),
             'es_docum_web': forms.HiddenInput(),
+            # 'percen_iva':  forms.TextInput(attrs={'readonly':'readonly'}),
             # 'codi_prj': forms.TextInput(attrs={'disabled':'True'}),
             # 'id_resp': Select(),
-            'serv_o_subven': forms.RadioSelect(choices=[(1,'Servei'),(2,'Subvencio')],attrs={'class':'servsubv','checked':True}),
-            # 'id_categoria': Select(),
+            # 'id_usuari_extern': Select(choices=UsuarisExterns.objects.all().values_list('id_usuari_extern','id_organisme__nom_organisme')),
+            # 'id_usuari_extern': forms.ModelChoiceField(queryset=TUsuarisExterns.objects.all(),empty_label="--------"),
+            'serv_o_subven': forms.RadioSelect(choices=[(1,'Servei'),(2,'Subvencio')],attrs={'class':'servsub'}),
+            'id_categoria': forms.HiddenInput(),
             # 'id_categoria': forms.ChoiceField(choices=[(cat.id_categoria,cat.desc_categoria) for cat in TCategoriaPrj.objects.all()]),
             # 'id_estat_projecte': Select(),
             # 'data_inici_prj': SelectDateWidget,
