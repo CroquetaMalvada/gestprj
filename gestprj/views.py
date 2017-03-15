@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.core import serializers
 from gestprj.models import Projectes, TCategoriaPrj, TOrganismes, CentresParticipants, PersonalExtern, TUsuarisExterns, \
     PersonalCreaf, TUsuarisCreaf, JustificPersonal, TFeines, Financadors, Receptors, JustificInternes, Renovacions, \
     TConceptesPress, Pressupost, PeriodicitatPres, PeriodicitatPartida, Desglossaments, ClausDiferenCompte, \
@@ -25,6 +26,7 @@ from gestprj.serializers import GestCentresParticipantsSerializer, ProjectesSeri
     GestPeriodicitatPartidaSerializer, GestDesglossamentSerializer, GestJustificacionsProjecteSerializer, \
     GestAuditoriesSerializer
 from gestprj import pk,consultes_cont
+import json
 
 # #funcion para comprovar si el usuario es admin o investigador
 # def not_in_student_group(user):
@@ -644,10 +646,19 @@ def cont_ingresos(request):
 def cont_resum_estat_prj(request):
 
     projectes = request.POST
-    llista_dades = consultes_cont.ResumEstatProjectes(projectes)
+    llista_dades = consultes_cont.ResumEstatProjectes(projectes)  # Ojo que este hace un return de 2 arrays,uno con los datos(llsita_dades[0]) y otro con los totales(llista_dades[1])
 
-    context = {'llista_dades': llista_dades, 'titulo': "RESUM ESTAT PROJECTES"}
+    context = {'llista_dades': llista_dades[0],'totals': llista_dades[1],'titulo': "RESUM ESTAT PROJECTES"}
     return render(request, 'gestprj/cont_resum_estat_prj.html', context)
+
+@login_required(login_url='/menu/')
+def cont_estat_prj_resp(request):
+
+    projectes = request.POST
+    llista_dades = consultes_cont.EstatProjectesResp(projectes)
+
+    context = {'llista_dades': llista_dades,'titulo': "ESTAT PROJECTES PER RESPONSABLE"}
+    return render(request, 'gestprj/cont_resum_estat_prj_resp.html', context)
 
 
 @login_required(login_url='/menu/')
@@ -659,6 +670,15 @@ def cont_resum_fitxa_major_prj(request):
     context = {'llista_dades': llista_dades, 'titulo': "RESUM ESTAT MAJOR PROJECTES"}
     return render(request, 'gestprj/cont_resum_fitxa_major_prj.html', context)
 
+def ListMovimentsCompte(request,compte,data_min,data_max):
+    if int(compte) != 0:
+        fetch = consultes_cont.MovimentsCompte(compte,data_min,data_max)
+        resultado = json.dumps(fetch)
+        return HttpResponse(resultado, content_type='application/json')
+    else:
+        return HttpResponse([{}], content_type='application/json')
+
+
 @login_required(login_url='/menu/')
 def cont_fitxa_major_prj(request):
 
@@ -667,3 +687,21 @@ def cont_fitxa_major_prj(request):
 
     context = {'llista_dades': llista_dades, 'titulo': "RESUM ESTAT MAJOR PROJECTES"}
     return render(request, 'gestprj/cont_fitxa_major_prj.html', context)
+
+@login_required(login_url='/menu/')
+def cont_resum_estat_canon(request):
+
+    projectes = request.POST
+    llista_dades = consultes_cont.ResumEstatCanon(projectes)
+
+    context = {'llista_dades': llista_dades, 'titulo': "RESUM ESTAT CANON PROJECTES PER RESPONSABLE"}
+    return render(request, 'gestprj/cont_resum_estat_canon.html', context)
+
+@login_required(login_url='/menu/')
+def cont_comptes_no_assignats(request):
+
+    projectes = request.POST
+    llista_dades = consultes_cont.ComptesNoAssignats(projectes)
+
+    context = {'llista_dades': llista_dades, 'titulo': "COMPTES NO ASSIGNATS A CAP PROJECTE"}
+    return render(request, 'gestprj/cont_comptes_no_assignats.html', context)

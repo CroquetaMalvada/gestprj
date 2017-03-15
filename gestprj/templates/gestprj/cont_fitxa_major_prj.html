@@ -2,7 +2,7 @@
 
 {% block contenido %}
 <div class="content text-center">
-    <h1>Fitxa Major Projectes per Comptes</h1><br><br><br><br>
+    <h1>Fitxa Major Projectes</h1><br><br><br><br>
     <div class="col-md-10 col-md-offset-1" style="background:white;height:75vh;overflow:scroll;">
         <div id="accordion">
             {% for projecte in llista_dades %}
@@ -29,7 +29,7 @@
                 </p>
                 <br><br>
                 Saldo incial Caixa: 0,00
-                <table class="table table-striped table-bordered datatable table_llista_despeses" width="100%">
+                <table class="table table-striped table-bordered datatable table_cont" width="100%">
                     <thead>
                     <tr>
                         <th>Data</th>
@@ -41,23 +41,6 @@
                         <th>Saldo Caixa</th>
                     </tr>
                     </thead>
-                    <tfoot>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><b>Totals: </b></td>
-                                {% if projecte.total_disponible > 0 %}
-                                    <td bgcolor="LightGreen"><b>{{ projecte.total_cargo }}</b></td>
-                                    <td bgcolor="LightGreen"><b>{{ projecte.total_debe }}</b></td>
-                                    <td bgcolor="LightGreen"><b>{{ projecte.total_haber }}</b></td>
-                                {% else %}
-                                    <td bgcolor="LightCoral"><b>{{ projecte.total_cargo }}</b></td>
-                                    <td bgcolor="LightCoral"><b>{{ projecte.total_debe }}</b></td>
-                                    <td bgcolor="LightCoral"><b>{{ projecte.total_haber }}</b></td>
-                                {% endif %}
-                            </tr>
-                    </tfoot>
                     <tbody>
                         {% for despesa in projecte.despeses %}
                         <tr><!-- Que hay de campos como "Opc2"?-->
@@ -67,10 +50,27 @@
                             <td>{{ despesa.Descripcion }}</td>
                             <td>{{ despesa.Debe }}</td>
                             <td>{{ despesa.Haber }}</td>
-                            <td>{{ despesa.Total_caja }}</td>
+                            <td>{{ despesa.Saldo_caja }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
+                    <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><b>Totals: </b></td>
+                                {% if projecte.total_disponible > 0 %}
+                                    <td bgcolor="LightGreen"><b>{{ projecte.total_debe }}</b></td>
+                                    <td bgcolor="LightGreen"><b>{{ projecte.total_haber }}</b></td>
+                                    <td bgcolor="LightGreen"><b>{{ projecte.total_caja }}</b></td>
+                                {% else %}
+                                    <td bgcolor="LightCoral"><b>{{ projecte.total_debe }}</b></td>
+                                    <td bgcolor="LightCoral"><b>{{ projecte.total_haber }}</b></td>
+                                    <td bgcolor="LightCoral"><b>{{ projecte.total_caja }}</b></td>
+                                {% endif %}
+                            </tr>
+                    </tfoot>
                 </table>
             </div>
             {% endfor %}

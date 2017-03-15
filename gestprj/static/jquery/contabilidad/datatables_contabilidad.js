@@ -1,5 +1,6 @@
 var table_projectes;
 var table_responsables;
+var table_comptes;
 
 $(document).ready(function(){
     /////IDIOMA DATATABLES
@@ -63,45 +64,96 @@ $(document).ready(function(){
         projectes_de_responsable(this);
     });
 
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
-
-   if($(".table_llista_despeses")){// DESPESES
-       $(".table_llista_despeses").DataTable({
-            scrollY:        '60vh',
+   if($("#table_llista_comptes")){//COMPTES
+       table_comptes = $("#table_llista_comptes").DataTable({
+            ajax: {
+                url: '/show_Moviments_Compte/0/0/0', //ej 625012159/01-01-1997/08-02-2017
+                dataSrc: '' //como no hay ninguna variable general que contiene el array json,lo dejamos como un string vacio
+            },
+            columns:[
+                {'data': 'Fecha'},
+                {'data': 'Asiento'},
+                {'data': 'Descripcion'},
+                {'data': 'Debe'},
+                {'data': 'Haber'},
+                {'data': 'Saldo'}
+            ],
+            dom: 'Bfrtip',
+            buttons:[{
+                extend: 'print',
+                header: true,
+                footer: true,
+                title: function(){return '<h4>'+$("#dialog_llista_comptes").attr("title")+'</h4>'},
+                text: '<span class="glyphicon glyphicon-print" aria-hidden="true">  Imprimir</span>',
+                autoPrint: true
+            }],
+            scrollY:        '70vh',
             scrollCollapse: true,
             paging:         false,
             autowidth:      true,
-            columnDefs: [
-                { type: 'de_date', targets: 0 }
-            ],
+            overflow:       "auto",
+//            order:          [[ 0, "asc" ]],
+//            columnDefs:[
+//                { type: 'de_date', targets: 0 }
+//            ],
             language: opciones_idioma
         });
-    }
+   }
 
-   if($(".table_llista_ingresos")){// INGRESOS
-       $(".table_llista_ingresos").DataTable({
-            scrollY:        '60vh',
-            scrollCollapse: true,
-            paging:         false,
-            autowidth:      true,
-            columnDefs: [
-                { type: 'de_date', targets: 0 }
-            ],
-            language: opciones_idioma
-        });
-    }
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+///Esto sirve para que el campo que contiene una fecha lo detecte como tal para poder asi ordenarlo correctamente por fecha
 
-//   if($(".table_llista_dades")){// DESPESES
-//       $(".table_llista_dades").DataTable({
+//   if($(".table_llista_despeses")){// DESPESES
+//       $(".table_llista_despeses").DataTable({
 //            scrollY:        '60vh',
 //            scrollCollapse: true,
 //            paging:         false,
 //            autowidth:      true,
-////            columnDefs: [
-////                { type: 'de_date', targets: 0 }
-////            ],
+//            columnDefs: [
+//                { type: 'de_date', targets: 0 }
+//            ],
+//            language: opciones_idioma
+//        });
+//    }
+//
+//   if($(".table_llista_ingressos")){// INGRESOS
+//       $(".table_llista_ingressos").DataTable({
+//            scrollY:        '60vh',
+//            scrollCollapse: true,
+//            paging:         false,
+//            autowidth:      true,
+//            columnDefs: [
+//                { type: 'de_date', targets: 0 }
+//            ],
+//            language: opciones_idioma
+//        });
+//    }
+
+    if($(".table_cont")){// Ojo cambiar la class de las tablas de contabilidad por table_cont y asi poder quitar estas 2 de arriba ^
+       $(".table_cont").DataTable({
+            scrollY:        '60vh',
+            scrollCollapse: true,
+            paging:         false,
+            autowidth:      true,
+            columnDefs: [
+                { type: 'de_date', targets: 0 }
+            ],
+            language: opciones_idioma
+        });
+    }
+
+//      Ojo esta de abajo no hace falta ya que esta esta declarada mas arriba
+//   if($(".table_llista_comptes")){// DIALOG DE LOS MOVIMIENTOS DE COMPTES EN RESUM FITXA MAJOR PER COMPTES
+//       $(".table_llista_comptes").DataTable({
+//            scrollY:        '60vh',
+//            scrollCollapse: true,
+//            paging:         false,
+//            autowidth:      true,
+//            columnDefs: [
+//                { type: 'de_date', targets: 0 }
+//            ],
 //            language: opciones_idioma
 //        });
 //    }

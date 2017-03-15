@@ -33,16 +33,38 @@ $(document).ready(function(){
         else if($(this).val()==4)
             $("#formulario_projectes_cont").attr("action","/cont_ingresos/");
         else if($(this).val()==5)
-            $("#formulario_projectes_cont").attr("action","/cont_estat_prj_resp/");
-        else if($(this).val()==6)
             $("#formulario_projectes_cont").attr("action","/cont_fitxa_major_prj/");
+        else if($(this).val()==6)
+            $("#formulario_projectes_cont").attr("action","/cont_estat_prj_resp/");
         else if($(this).val()==7)
             $("#formulario_projectes_cont").attr("action","/cont_resum_fitxa_major_prj/");
         else if($(this).val()==8)
             $("#formulario_projectes_cont").attr("action","/cont_resum_estat_prj/");
         else if($(this).val()==9)
-            $("#formulario_projectes_cont").attr("action","/cont_resum_estat_canon_prj_resp/"); ////TERMINAR
+            $("#formulario_projectes_cont").attr("action","/cont_resum_estat_canon/");
         else if($(this).val()==10)
-            $("#formulario_projectes_cont").attr("action","/cont_comptes_no_asignats/"); ////TERMINAR
+            $("#formulario_projectes_cont").attr("action","/cont_comptes_no_assignats/");
     });
+
+
+    //Al mostrar la info de un compte en "Resum Fitxa Major Projectes per Comptes"
+    $(".table_cont").on( 'click', '.info_compte', function (){
+	    id_compte = $(this).attr("id");
+	    data_min = $("#data_min").val();
+	    data_max = $("#data_max").val();
+	    descripcio = $(this).parents(".table_cont").DataTable().row(".selected").data()[1];
+	    $("#dialog_llista_comptes").attr("title","DETALL MOVIMENTS COMPTE:"+id_compte+" - "+descripcio);
+        table_comptes.ajax.url('/show_Moviments_Compte/'+id_compte+'/'+data_min+'/'+data_max);
+	    table_comptes.ajax.reload();
+	    mostrar_dialog("dialog_llista_comptes");
+	});
+
+//	$("#imprimir_compte").click(function(){
+//        var divToPrint=document.getElementById('dialog_llista_comptes');
+//        var newWin=window.open('','Print-Window');
+//        newWin.document.open();
+//        newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+//        newWin.document.close();
+//        setTimeout(function(){newWin.close();},10);
+//	});
 });

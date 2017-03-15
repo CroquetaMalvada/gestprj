@@ -78,6 +78,7 @@ urlpatterns = patterns('',
     url('^show_JustificacionsProjecte/(?P<id_projecte>.+)/$', views.ListJustificacionsProjecte.as_view()),
 
     url('^show_Auditories/(?P<id_projecte>.+)/$', views.ListAuditories.as_view()),
+    #
 
     url(r'^llista_projectes/', views.list_projectes, name='llista_projectes'),
     url(r'^projecte_nou/(?P<id>.+)/$', views.new_project, name='projecte_nou'),
@@ -95,7 +96,14 @@ urlpatterns = patterns('',
     url(r'^cont_estat_pres/$', views.cont_estat_pres, name='cont_estat_pres'),
     url(r'^cont_despeses/$', views.cont_despeses, name='cont_despeses'),
     url(r'^cont_ingresos/$', views.cont_ingresos, name='cont_ingresos'),
-    url(r'^cont_resum_estat_prj/$', views.cont_resum_estat_prj, name='resum_estat_prj'),
+    url(r'^cont_estat_prj_resp/$', views.cont_estat_prj_resp, name='estat_prj_resp'),
     url(r'^cont_resum_fitxa_major_prj/$', views.cont_resum_fitxa_major_prj, name='resum_fitxa_major_prj'),
+    #moviments compte
+    url(r'^show_Moviments_Compte/(?P<compte>.+)/(?P<data_min>.+)/(?P<data_max>.+)/$', views.ListMovimentsCompte, name="moviments_compte"),
+
+    url(r'^cont_resum_estat_prj/$', views.cont_resum_estat_prj, name='resum_estat_prj'),
+    url(r'^cont_resum_estat_canon/$', views.cont_resum_estat_canon, name='resum_estat_canon'),
     url(r'^cont_fitxa_major_prj/$', views.cont_fitxa_major_prj, name='fitxa_major_prj'),
+    url(r'^cont_comptes_no_assignats/$', views.cont_comptes_no_assignats, name='comptes_no_assignats'),
+
 )

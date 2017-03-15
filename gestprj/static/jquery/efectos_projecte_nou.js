@@ -161,6 +161,8 @@ $(nombre).show();
 $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();///IMPORTANTE sire para alinear correctamente las cabezeras de las datatables,ya que con divs que estan hidden no se alineaban automaticamente
 }
 
+
+//crear un script aparte con para mentener mas orden,ya que esta funcion tambien lo usa resum fitxa major comptes en contabilidad
 function mostrar_dialog(dialog){
 //    var titulo = "";
     $("#dialogs").dialog("open");
